@@ -45,12 +45,14 @@ namespace player_hw
             {
                 video.Play();
                 buttonPS.Content = "Pause";
+                contextmPS.Header = "Pause";
             }
             else
                 if (buttonPS.Content.ToString() == "Pause")
             {
                 video.Pause();
                 buttonPS.Content = "Play";
+                contextmPS.Header = "Play";
             }
 
         }

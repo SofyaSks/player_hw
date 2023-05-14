@@ -19,8 +19,12 @@
         </Grid>-->
 
         <Menu DockPanel.Dock="Top">
-            <MenuItem Header="_File">
-                <MenuItem Header="_Upload New" Click="MenuItemUploadNew_Click"/>
+            <MenuItem  Header="_File">
+                <MenuItem Header="_Upload New" Click="MenuItemUploadNew_Click">
+                    <MenuItem.Icon>
+                        <Image Source="https://cdn-icons-png.flaticon.com/512/169/169262.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
             </MenuItem>
             <MenuItem Header="Exit" Click="Button_Click_Exit"/>
         </Menu>
@@ -30,9 +34,30 @@
                      Orientation="Vertical" Foreground="Green" 
                      Width="10" Height="200" ValueChanged="prbar_ValueChanged"></ProgressBar>
         <UniformGrid DockPanel.Dock="Bottom" Rows="1">
-            <Button Margin="5" x:Name="buttonPS" Click="Button_Click_PS">Play</Button>
-            <Button Margin="5" Click ="Button_Click_Restart">Restart</Button>
-            <Button Margin="5" Click="Button_Click_Exit">Exit</Button>
+            <Button Margin="5" x:Name="buttonPS" Click="Button_Click_PS">
+                <Button.ToolTip>
+                    <ToolTip>
+                        Воспроизвести или остановить видео
+                    </ToolTip>
+                </Button.ToolTip>
+                Play
+            </Button>
+            <Button Margin="5" Click ="Button_Click_Restart">
+                <Button.ToolTip>
+                    <ToolTip>
+                        Воспроизвести видео заново
+                    </ToolTip>
+                </Button.ToolTip>
+                Restart
+            </Button>
+            <Button Margin="5" Click="Button_Click_Exit">
+                <Button.ToolTip>
+                    <ToolTip>
+                        Выйти
+                    </ToolTip>
+                </Button.ToolTip>
+                Exit
+            </Button>
         </UniformGrid>
 
 
@@ -42,10 +67,20 @@
 
         <MediaElement MediaOpened="video_MediaOpened" MediaEnded="video_MediaEnded" MediaFailed="video_MediaFailed" 
                       ScrubbingEnabled="True" Margin="10" Volume="0" 
-                      Source="Nyan Cat.mp4" x:Name="video" LoadedBehavior="Manual"/>
+                      Source="Nyan Cat.mp4" x:Name="video" LoadedBehavior="Manual">
+            <MediaElement.ContextMenu>
+                <ContextMenu>
+                    <MenuItem x:Name="contextmPS" Header="Start" Click="Button_Click_PS"/>
+                    <MenuItem Header="Restart" Click="Button_Click_Restart"/>
+                    <MenuItem Header="Exit" Click="Button_Click_Exit"/>
+                </ContextMenu>
+            </MediaElement.ContextMenu>
+        </MediaElement>
 
+        
         
 
 
     </DockPanel>
+    
 </Window>
