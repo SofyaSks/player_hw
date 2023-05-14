@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800" FontSize="24">
     <DockPanel>
-        <Grid DockPanel.Dock="Top">
+        <!--<Grid DockPanel.Dock="Top">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
@@ -16,7 +16,19 @@
             </Grid.RowDefinitions>
             <TextBlock FontSize ="16">Введите путь к файлу <TextBox x:Name="filepath" Width="300"/> 
                 <Button Width="80" Click="Button_Click_File">Ok</Button></TextBlock>
-        </Grid>
+        </Grid>-->
+
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_File">
+                <MenuItem Header="_Upload New" Click="MenuItemUploadNew_Click"/>
+            </MenuItem>
+            <MenuItem Header="Exit" Click="Button_Click_Exit"/>
+        </Menu>
+
+        <ProgressBar DockPanel.Dock="Left" Margin="10"
+                 Minimum="0" x:Name="prbar" 
+                     Orientation="Vertical" Foreground="Green" 
+                     Width="10" Height="200" ValueChanged="prbar_ValueChanged"></ProgressBar>
         <UniformGrid DockPanel.Dock="Bottom" Rows="1">
             <Button Margin="5" x:Name="buttonPS" Click="Button_Click_PS">Play</Button>
             <Button Margin="5" Click ="Button_Click_Restart">Restart</Button>
@@ -28,10 +40,11 @@
         <Slider DockPanel.Dock="Bottom" Minimum="0" x:Name="video_slider" ValueChanged="video_slider_ValueChanged"/>
         <TextBlock DockPanel.Dock="Right" FontSize="10">100</TextBlock>
 
-        <MediaElement MediaOpened="video_MediaOpened" MediaEnded="video_MediaEnded" MediaFailed="video_MediaFailed" ScrubbingEnabled="True" Margin="10" Volume="0" Source="Nyan Cat.mp4" x:Name="video" LoadedBehavior="Manual"/>
+        <MediaElement MediaOpened="video_MediaOpened" MediaEnded="video_MediaEnded" MediaFailed="video_MediaFailed" 
+                      ScrubbingEnabled="True" Margin="10" Volume="0" 
+                      Source="Nyan Cat.mp4" x:Name="video" LoadedBehavior="Manual"/>
 
         
-
 
 
     </DockPanel>

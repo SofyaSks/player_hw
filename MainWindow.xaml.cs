@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Threading;
 using System.Threading;
 using System.Timers;
 using System.Windows.Controls;
@@ -14,6 +15,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.IO;
+using Microsoft.Win32;
 
 namespace player_hw
 {
@@ -22,9 +25,17 @@ namespace player_hw
     /// </summary>
     public partial class MainWindow : Window
     {
+        DispatcherTimer disp = new DispatcherTimer();
+        
         public MainWindow()
         {
-            InitializeComponent();
+            InitializeComponent();         
+
+            disp.Interval = new TimeSpan(10000);
+            disp.Tick += new EventHandler(change_pb);
+            disp.Tick += new EventHandler(change_prbar);
+
+            disp.Start();
             
         }
 
@@ -62,7 +73,7 @@ namespace player_hw
             video.Volume = volume_slider.Value;
         }
 
-        private void Button_Click_File(object sender, RoutedEventArgs e)
+        /*private void Button_Click_File(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -77,8 +88,17 @@ namespace player_hw
             }
             
             
+        }*/
+
+        private void change_pb(object sender, EventArgs e)
+        {
+            video_slider.Value = video.Position.TotalMilliseconds;
         }
 
+        private void change_prbar(object sender, EventArgs e)
+        {
+            prbar.Value = video.Position.TotalMilliseconds;
+        }
         private void video_MediaFailed(object sender, ExceptionRoutedEventArgs e)
         {
             MessageBox.Show("Ошибка загрузки. Проверьте путь");
@@ -87,16 +107,13 @@ namespace player_hw
         private void video_slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             video_slider.Maximum = video.NaturalDuration.TimeSpan.TotalMilliseconds;
-            video.Position = new TimeSpan(0, 0, 0, 0, (int)video_slider.Value);
+           // video.Position = new TimeSpan(0, 0, 0, 0, (int)video_slider.Value);
         }
 
 
         private void video_MediaOpened(object sender, RoutedEventArgs e)
         {
-            /*Timer timerVideoTime = new Timer();
-             timerVideoTime.Interval = TimeSpan.FromSeconds(1);
-             timerVideoTime.Tick += new EventHandler(timer_Tick);
-             timerVideoTime.Start();*/
+           video_slider.Value = video.Position.TotalMilliseconds;
             
         }
 
@@ -105,6 +122,25 @@ namespace player_hw
             video.Stop();
             video_slider.Value = 0;
             buttonPS.Content = "Play";
+        }
+
+        private void prbar_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            prbar.Maximum = video.NaturalDuration.TimeSpan.TotalMilliseconds;
+        }
+
+        private void MenuItemUploadNew_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                OpenFileDialog file = new OpenFileDialog();
+                if (file.ShowDialog() == true)
+                    video.Source = new Uri(file.FileName);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }
